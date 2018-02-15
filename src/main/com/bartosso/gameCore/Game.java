@@ -2,20 +2,20 @@ package bartosso.gameCore;
 
 import bartosso.IO.Input;
 import bartosso.gameCore.entities.Player;
+import bartosso.gameCore.level.Level;
 import bartosso.mainHell.display.Display;
 import bartosso.util.Time;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.logging.Level;
 
 public class Game implements Runnable {
 
-    public static final int width = Toolkit.getDefaultToolkit().getScreenSize().width;
-    public static final int height = Toolkit.getDefaultToolkit().getScreenSize().height;
-    public static final String title = "Hell";
-    public static final int CLEAR_COLOR = 0xff6666cc;
-    public static final int NUM_BUFFERS = 3;
+    public static final int display_Width = Toolkit.getDefaultToolkit().getScreenSize().width;
+    public static final int display_Height = Toolkit.getDefaultToolkit().getScreenSize().height;
+    public static final String title     = "Hell";
+    public static final int CLEAR_COLOR  = 0xff6666cc;
+    public static final int NUM_BUFFERS  = 3;
 
     public static final float UPDATE_RATE = 60.0f;
     public static final float UPDATE_INTERVAL = Time.second/UPDATE_RATE;
@@ -25,17 +25,19 @@ public class Game implements Runnable {
     private Thread gameThread;
     private Graphics2D graphics;
     private Input input;
-    private Level level;
+    private Level testLevel;
     private Player player;
 
     public Game(){
         running = false;
-        Display.create(width, height, title, CLEAR_COLOR, NUM_BUFFERS);
+        Display.create(display_Width, display_Height, title, CLEAR_COLOR, NUM_BUFFERS);
         graphics = Display.getGraphics();
         input = new Input();
         Display.addInputListener(input);
 
-        player = new Player(width/2, height/2,1,3);
+        player = new Player(display_Width /2 - 32, display_Height /2 - 32,1,3);
+
+        testLevel = new Level(display_Height,display_Width,player,0);
 
     }
 
@@ -65,18 +67,19 @@ public class Game implements Runnable {
     }
     private void update(){
         checkEscape();
-        player.update(input);
+        testLevel.update(input);
+//        player.update(input);
 
     }
     private void render(){
         Display.clear();
-        player.render(graphics);
+        testLevel.render(graphics);
+//        player.render(graphics);
         Display.swapBuffers();
 
     }
     private void cleanUp(){
         Display.destroy();
-        System.out.println("lol");
     }
 
 
@@ -137,4 +140,6 @@ public class Game implements Runnable {
             stop();
         }
     }
+
+
 }
