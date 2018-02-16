@@ -6,12 +6,12 @@ import java.awt.*;
 
 public abstract class Entity {
 
-    public final EntityType type;
+    private final EntityType type;
 
-    protected float x;
-    protected float y;
+    float x;
+    float y;
 
-    protected Entity(EntityType type, float x, float y){
+    Entity(EntityType type, float x, float y){
         this.type = type;
         this.x    = x;
         this.y    = y;
