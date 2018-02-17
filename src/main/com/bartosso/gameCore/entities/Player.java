@@ -27,6 +27,10 @@ public class Player extends Entity {
     private float deltaY;
     private double angle;
     private AffineTransform transform;
+    private float diffX;
+    private float diffY;
+    private float renderX;
+    private float renderY;
 
 
 
@@ -53,15 +57,19 @@ public class Player extends Entity {
         if(isMoving) {
             if (!input.getKey(KeyEvent.VK_S)) {
                 isMoving = false;
+                diffY = 0;
             }
             if (!input.getKey(KeyEvent.VK_W)) {
                 isMoving = false;
+                diffY = 0;
             }
             if (!input.getKey(KeyEvent.VK_A)) {
                 isMoving = false;
+                diffX = 0;
             }
             if (!input.getKey(KeyEvent.VK_D)) {
                 isMoving = false;
+                diffX = 0;
             }
         }
         if (input.getKey(KeyEvent.VK_W)) {
@@ -87,8 +95,17 @@ public class Player extends Entity {
             isMoving = true;
         }
 
+
+            diffX = deltaX - x;
+
+            diffY = deltaY - y;
+
+
+
+
         if (deltaX < 0 | deltaX > (Level.getLevelWidth() - SPRITE_SCALE)) return;
         if (deltaY < 0 | deltaY > (Level.getLevelHeight() - SPRITE_SCALE)) return;
+
         x = deltaX;
         y = deltaY;
 
@@ -96,6 +113,14 @@ public class Player extends Entity {
 
 //        System.out.println(MouseInfo.getPointerInfo().getLocation());
 
+    }
+
+    public void setRenderX(float renderX) {
+        this.renderX = renderX;
+    }
+
+    public void setRenderY(float renderY) {
+        this.renderY = renderY;
     }
 
     public float getDeltaX(){
@@ -118,11 +143,21 @@ public class Player extends Entity {
         return y;
     }
 
+    public float getDiffX(){
+        return diffX;
+    }
+
+    public float getDiffY(){
+        return diffY;
+    }
+
     @Override
     public void render(Graphics2D g) {
 
-        centerX = (int) (x + 32 * scale);
-        centerY = (int) (y + 32 * scale);
+        centerX = (int) (renderX + 32 * scale);
+//                (int) (x + 32 * scale);
+        centerY = (int) (renderY + 32 * scale);
+//                (int) (y + 32 * scale);
         angle = Math.atan2(
                 centerY - (MouseInfo.getPointerInfo().getLocation().y + 16 ) ,
                 centerX - (MouseInfo.getPointerInfo().getLocation().x + 16)) - Math.PI / 2;
