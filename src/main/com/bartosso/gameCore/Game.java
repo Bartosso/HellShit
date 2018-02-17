@@ -68,13 +68,11 @@ public class Game implements Runnable {
     private void update(){
         checkEscape();
         testLevel.update(input);
-//        player.update(input);
 
     }
     private void render(){
         Display.clear();
         testLevel.render(graphics);
-//        player.render(graphics);
         Display.swapBuffers();
 
     }

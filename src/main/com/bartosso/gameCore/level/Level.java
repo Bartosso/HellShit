@@ -21,8 +21,6 @@ public class Level {
     private float playerRenderY;
     private float offsetMaxX;
     private float offsetMaxY;
-    private float offsetMinX = 0;
-    private float offsetMinY = 0;
     private float camX;
     private float camY;
 
@@ -39,13 +37,29 @@ public class Level {
 
 
         camX = player.getX() - dimensionWidth / 2;
-        if (camX < 0)  camX = 0;
         camY = player.getY() - dimensionHeight / 2;
-        if (camY < 0)  camY = 0;
     }
 
     public void update(Input input){
         player.update(input);
+
+
+    }
+
+    public void render(Graphics2D g){
+        updatePlayerRenderPoints();
+        checkCamPositions();
+        g.drawImage(image.getSubimage(Math.round(camX),Math.round(camY),dimensionWidth,dimensionHeight),0,0,null);
+        player.render(g);
+
+
+
+       player.getSprite().render(g,playerRenderX,playerRenderY);
+       player.setTransform(g);
+
+    }
+
+    private void updatePlayerRenderPoints(){
         if (player.getX()<dimensionWidth/2){
             playerRenderX = player.getX();
             player.setRenderX(playerRenderX);
@@ -72,23 +86,13 @@ public class Level {
             playerRenderY = player.getY()-offsetMaxY;
             player.setRenderY(playerRenderY);
         }
-
-
     }
 
-    public void render(Graphics2D g){
+    private void checkCamPositions(){
         if (camX>offsetMaxX) camX = offsetMaxX;
         if (camY>offsetMaxY) camY = offsetMaxY;
         if (camX < 0)  camX = 0;
         if (camY < 0)  camY = 0;
-       g.drawImage(image.getSubimage(Math.round(camX),Math.round(camY),dimensionWidth,dimensionHeight),0,0,null);
-       player.render(g);
-
-
-
-       player.getSprite().render(g,playerRenderX,playerRenderY);
-       player.setTransform(g);
-
     }
 
     public static int getLevelWidth() {
