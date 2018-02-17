@@ -35,9 +35,9 @@ public class Game implements Runnable {
         input = new Input();
         Display.addInputListener(input);
 
-        player = new Player(100, 100,1,3);
+        player = new Player(2800, 100,1,3);
 
-        testLevel = new Level(display_Height,display_Width,player,0);
+        testLevel = new Level(display_Height,display_Width,player);
 
     }
 

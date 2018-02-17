@@ -16,8 +16,7 @@ public class Level {
     private final int dimensionWidth;
     private final Player player;
 
-    private float oldPlayerX;
-    private float oldPlayerY;
+
     private float playerRenderX;
     private float playerRenderY;
     private float offsetMaxX;
@@ -30,15 +29,13 @@ public class Level {
 
     private BufferedImage image = ResourceLoader.loadImage("font.jpg");
 
-    public Level(int dimensionHeight, int dimensionWidth, Player player ,int playerSpriteSize) {
+    public Level(int dimensionHeight, int dimensionWidth, Player player ) {
       this.dimensionHeight = dimensionHeight;
       this.dimensionWidth  = dimensionWidth;
       this.player = player;
-        oldPlayerX = player.getX();
-        oldPlayerY = player.getY();
 
-        offsetMaxX = getLevelWidth()  - dimensionWidth;
-        offsetMaxY = getLevelHeight() - dimensionHeight;
+      offsetMaxX = getLevelWidth()  - dimensionWidth;
+      offsetMaxY = getLevelHeight() - dimensionHeight;
 
 
         camX = player.getX() - dimensionWidth / 2;
@@ -82,6 +79,8 @@ public class Level {
     public void render(Graphics2D g){
         if (camX>offsetMaxX) camX = offsetMaxX;
         if (camY>offsetMaxY) camY = offsetMaxY;
+        if (camX < 0)  camX = 0;
+        if (camY < 0)  camY = 0;
        g.drawImage(image.getSubimage(Math.round(camX),Math.round(camY),dimensionWidth,dimensionHeight),0,0,null);
        player.render(g);
 
